@@ -69,6 +69,50 @@ public class BST {
         return null;
     }
 
+
+    public BSTNode removeRec(int value){
+        if (root == null) return null;
+        
+        if (root.getValue() == value) {
+            BSTNode toRemove = root;
+            if (root.getRight() == null) {
+                root = root.getLeft();
+                if (root != null) {
+                    root.setParent(null);
+                }
+                size --;
+                return toRemove;
+            }
+            BSTNode iter = root.getRight();
+
+            if (iter.getLeft() == null) {
+                root = iter;
+                iter.setParent(null);
+                size --;
+                return toRemove;
+            }
+
+            while (iter.getLeft() != null) {iter = iter.getLeft();}
+            iter.getParent().setLeft(null);
+            root.getLeft().setParent(iter);
+            root.getRight().setParent(iter);
+            iter.setLeft(root.getLeft());
+            iter.setRight(root.getRight());
+            root = iter;
+            size --;
+            return toRemove;
+        }
+        
+
+        BSTNode removed = root.remove(value);
+        if (removed != null) {
+            size --;
+        }
+        return removed;
+    }
+
+
+
     public int size(){
         return this.size;
     }
@@ -87,6 +131,10 @@ class BSTNode {
     BSTNode(BSTNode parent, int value) {
         this.parent = parent;
         this.value = value;
+    }
+
+    public void setParent(BSTNode parent){
+        this.parent = parent;
     }
 
     public void setLeft(BSTNode left){
@@ -127,7 +175,6 @@ class BSTNode {
             right = new BSTNode(this, value);
             return;
         }
-
         right.add(value);
         
     }
@@ -143,7 +190,43 @@ class BSTNode {
     }
 
     public BSTNode remove(int value){
-        return null;
+        if (this.left != null && this.left.getValue() == value) {
+            BSTNode iter = this.left.getRight();
+            BSTNode toRemove = this.left;
+            if (iter == null) {
+                this.left = this.left.getLeft();
+                return toRemove;
+            }
+
+            while(iter.getLeft() != null) {iter = iter.getLeft();}
+            
+            iter.getParent().setLeft(null);
+            this.left = iter;
+            iter.setParent(this);
+            return toRemove;
+
+        }
+        
+        if (this.right != null && this.right.getValue() == value) {
+            BSTNode iter = this.right.getRight();
+            BSTNode toRemove = this.right;
+            if (iter == null) {
+                this.right = this.right.getLeft();
+                return toRemove;
+            }
+            
+            while(iter.getLeft() != null) {iter = iter.getLeft();}
+            
+            iter.getParent().setLeft(null);
+            this.right = iter;
+            iter.setParent(this);
+            return toRemove;
+        }
+
+        if (value < this.value) {
+            return left != null ? this.left.remove(value) : null;
+        }
+        return right != null ? this.right.remove(value) : null;
     }
     
     @Override

@@ -12,20 +12,20 @@ public class Main {
         // bst.insertIt(2);
         // bst.insertIt(4);
 
-        bst.insertRec(3);
+        bst.insertRec(5);
         bst.insertRec(2);
         bst.insertRec(4);
+        bst.insertRec(3);
 
         // BSTNode root = bst.getRoot();
         // System.out.println(root.getValue());
         // System.out.println(root.getLeft().getValue());
         // System.out.println(root.getRight().getValue());
 
-        System.out.println(bst.findIRec(3));
-        System.out.println(bst.findIRec(6));
+        // System.out.println(bst.findIRec(3));
+        // System.out.println(bst.findIRec(6));
 
-
-
+        System.out.println(bst.removeRec(3));
 
     }
 }
